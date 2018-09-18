@@ -9,8 +9,8 @@ Watch Jasmine try to learn markdown!
 
 
 Blahblahblah *blah* **blahblah**  
-*blah1
-*blah2
-*blah3
+*blah1  
+*blah2  
+*blah3  
 
 
