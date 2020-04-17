@@ -46,7 +46,17 @@ hisat2 -p 20 \
   | samtools view -bhuS - | samtools sort - -m 100G -o Tad_Kamm.bam
 ```
 
-Kamm alignment stats  
+Hisat2/Samtools run:  
+```
+hisat2 -p 20 \
+  --rg-id "RGID_Tad_Kamm" --rg "RG_Tad_Kamm" \
+  --summary-file /home/jlm329/project/trix/fastq/trimmed/hisat2/Tad_Kamm_hisat2.aln.stats --new-summary \
+  -x /home/jlm329/project/trix/fastq/trimmed/hisat2/Tad_2019-29 \
+  -1 ../kamm_R1.paired.trimmed.fastq.gz -2 ../kamm_R2.paired.trimmed.fastq.gz \
+  | samtools view -bhuS - | samtools sort - -m 100G -o Tad_Kamm.bam
+```
+
+Kamm alignment stats:    
 ```
 HISAT2 summary stats:
         Total pairs: 74046691
@@ -60,6 +70,5 @@ HISAT2 summary stats:
                 Aligned >1 times: 223880 (1.98%)
         Overall alignment rate: 94.52%
 ```  
-
 
 
