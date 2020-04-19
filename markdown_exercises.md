@@ -62,6 +62,32 @@ HISAT2 summary stats:
         Overall alignment rate: 94.52%
 ```   
 
+Hisat2/Samtools run: 
+
+```  
+hisat2 -p 20 \
+  --rg-id "RGID_Tad_Kamm" --rg "RG_Tad_Kamm" \
+  --summary-file /home/jlm329/project/trix/fastq/trimmed/hisat2/Tad_Kamm_hisat2.aln.stats --new-summary \
+  -x /home/jlm329/project/trix/fastq/trimmed/hisat2/Tad_2019-29 \
+  -1 ../kamm_R1.paired.trimmed.fastq.gz -2 ../kamm_R2.paired.trimmed.fastq.gz \
+  | samtools view -bhuS - | samtools sort - -m 100G -o Tad_Kamm.bam
+```  
+
+Kamm alignment stats:    
+```  
+HISAT2 summary stats:
+        Total pairs: 74046691
+                Aligned concordantly or discordantly 0 time: 5652036 (7.63%)
+                Aligned concordantly 1 time: 65949314 (89.06%)
+                Aligned concordantly >1 times: 2008964 (2.71%)
+                Aligned discordantly 1 time: 436377 (0.59%)
+        Total unpaired reads: 11304072
+                Aligned 0 time: 8108359 (71.73%)
+                Aligned 1 time: 2971833 (26.29%)
+                Aligned >1 times: 223880 (1.98%)
+        Overall alignment rate: 94.52%
+```   
+
 Senatore alignment stats:  
 ```
 Library: SRR8674648  
