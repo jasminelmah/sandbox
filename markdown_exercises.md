@@ -13,7 +13,7 @@ Make a new line by adding **2** spaces at end before hitting return.
 
 give that a try  
 
-###Trinity Assembly  
+### Trinity Assembly  
 Genome guided Trinity to assemble Kamm/Senatore reads. Max intron size chosen as 500 bp since max intron length in Trichoplax is 243 bp.    
 Trinity version 2.9.1 executed in a singularity container in Farnam:    
 ```  
