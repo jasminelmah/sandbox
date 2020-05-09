@@ -27,8 +27,8 @@ cat SRR8674648_1.fastq SRR8674649_1.fastq SRR8674650_1.fastq SRR8674651_1.fastq 
 and repeat for R2.  
 
 Reads renamed and gzipped (big files - send in a job to gzip):  
-kamm.R1.fastq.gz and kamm.R2.fastq.gz: Kamm's reads just renamed  
-senatore.R1_cat.fastq.gz and senatore.R2_cat.fastq.gz: concatenated reads  
+- kamm.R1.fastq.gz and kamm.R2.fastq.gz: Kamm's reads just renamed  
+- senatore.R1_cat.fastq.gz and senatore.R2_cat.fastq.gz: concatenated reads  
 
 Trim with Trimmomatic: [trimm.sh](./trimm.sh)  
 ```
