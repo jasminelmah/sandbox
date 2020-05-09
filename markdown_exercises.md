@@ -37,7 +37,7 @@ trimmomatic PE -threads 10 -phred33 senatore.R1_cat.fastq.gz senatore.R2_cat.fas
 trimmomatic PE -threads 10 -phred33 kamm.R1.fastq.gz kamm.R2.fastq.gz trimmed/kamm_R1.paired.trimmed.fastq.gz trimmed/kamm_R1.unpaired.trimmed.fastq.gz trimmed/kamm_R2.paired.trimmed.fastq.gz trimmed/kamm_R2.unpaired.trimmed.fastq.gz ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 SLIDINGWINDOW:4:5 LEADING:5 TRAILING:5 MINLEN:25  
 ```
 ### Align reads to previous Trichoplax assembly  
-Alignment of all libraries at once was too burdensome. Aligned the four Senatore libraries (SRR8674648, SRR8674649, SRR8674650, SRR8674651) and Kamm reads separately. eg. [hisat2_samtools.sh](./hisat2_samtools.sh)  
+Aligned trimmed reads to Oct. 29 2019 Trichoplax HiC assembly. Alignment of all libraries at once was too burdensome. Aligned the four Senatore libraries (SRR8674648, SRR8674649, SRR8674650, SRR8674651) and Kamm reads separately. eg. [hisat2_samtools.sh](./hisat2_samtools.sh)  
 
 ```   
 hisat2 -p 20 \
