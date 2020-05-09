@@ -30,17 +30,16 @@ Reads renamed and gzipped (big files - send in a job to gzip):
 kamm.R1.fastq.gz and kamm.R2.fastq.gz: Kamm's reads just renamed  
 senatore.R1_cat.fastq.gz and senatore.R2_cat.fastq.gz: concatenated reads  
 
-Trim with Trimmomatic:  
+Trim with Trimmomatic: [trimm.sh](./trimm.sh)  
 ```
 trimmomatic PE -threads 10 -phred33 senatore.R1_cat.fastq.gz senatore.R2_cat.fastq.gz trimmed/senatore_R1.paired.trimmed.fastq.gz trimmed/senatore_R1.unpaired.trimmed.fastq.gz trimmed/senatore_R2.paired.trimmed.fastq.gz trimmed/senatore_R2.unpaired.trimmed.fastq.gz ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 SLIDINGWINDOW:4:5 LEADING:5 TRAILING:5 MINLEN:25  
 
 trimmomatic PE -threads 10 -phred33 kamm.R1.fastq.gz kamm.R2.fastq.gz trimmed/kamm_R1.paired.trimmed.fastq.gz trimmed/kamm_R1.unpaired.trimmed.fastq.gz trimmed/kamm_R2.paired.trimmed.fastq.gz trimmed/kamm_R2.unpaired.trimmed.fastq.gz ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 SLIDINGWINDOW:4:5 LEADING:5 TRAILING:5 MINLEN:25  
 ```
 ### Align reads to previous Trichoplax assembly  
-Alignment of all libraries at once was too burdensome. Aligned the four Senatore libraries (SRR8674648, SRR8674649, SRR8674650, SRR8674651) and Kamm reads separately.  
+Alignment of all libraries at once was too burdensome. Aligned the four Senatore libraries (SRR8674648, SRR8674649, SRR8674650, SRR8674651) and Kamm reads separately. eg. [hisat2_samtools.sh](./hisat2_samtools.sh)  
 
-```  
-module load HISAT2 SAMtools  
+```   
 hisat2 -p 20 \
   --rg-id "RGID_Tad_Kamm" --rg "RG_Tad_Kamm" \
   --summary-file /home/jlm329/project/trix/fastq/trimmed/hisat2/Tad_Kamm_hisat2.aln.stats --new-summary \
@@ -50,14 +49,15 @@ hisat2 -p 20 \
 
 ```  
 etc. with the other libraries.  
-Then merge with samtools:  
+Then merge with samtools: [samtoolsmerge.sh](./samtoolsmerge)  
 ```  
 samtools merge Tad_KammSenatore_merged.bam Tad_Kamm.bam SRR8674648.bam SRR8674649.bam SRR8674650.bam SRR8674651.bam  
 ```  
 
 ### Trinity Assembly  
 Genome guided Trinity to assemble Kamm/Senatore reads. Max intron size chosen as 500 bp since max intron length in Trichoplax is 243 bp.    
-Trinity version 2.9.1 executed in a singularity container in Farnam:    
+
+Trinity version 2.9.1 executed in a singularity container in Farnam: [trinity_jm_v2.9.1.sh](./trinity_jm_v2.9.1)    
 ```  
 singularity exec trinityrnaseq.v2.9.1.simg Trinity --genome_guided_bam Tad_KammSenatore_merged.bam --genome_guided_max_intron 500 --max_memory 250G --CPU 20  
 ```   
