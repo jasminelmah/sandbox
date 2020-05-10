@@ -15,7 +15,7 @@ give that a try
 
 
 
-### Trimmomatic  
+### Trimmomatic   
 We have found two sets of paired-end RNAseq reads for Trichoplax (Grell line):  
 - [Kamm et al. 2018](https://www.ncbi.nlm.nih.gov/sra/SRR5826498)  
 - [Senatore lab (unpublished)](https://www.ncbi.nlm.nih.gov/sra/SRX5470589%5Baccn%5D)  
@@ -94,4 +94,31 @@ Stats based on ALL transcript contigs:
         Average contig: 971.13
         Total assembled bases: 59238653
 ``` 
+### Funannotate  
+Install funannotate, download funannotate db, confirm successful installation:  
+```  
+#confirm all dependencies installed. If signalp version is > 4.1, will show up as error but will not affect annotation pipeline. Install ete3 and emapper.py manually.  
+funannotate check --show-versions  
+#download BUSCO metazoa db
+funannotate setup -i all -b metazoa -d funannotate_db  
+#confirm successful installation  
+funannotate test -t all --cpus 10  
+```  
+#### train  
+script: [funnannotate_train.sh](./funannotate_train.sh)  
+```  
+funannotate train -i trichoplax.scaffolds.fa.masked -o fun_train \
+    -l $READS/KammSenatoreAll_R1.fastq.gz \
+    -r $READS/KammSenatoreAll_R2.fastq.gz \
+    --trinity $TRINITY_OUT/Trinity-GG_max500.fasta \
+    --species "Trichoplax adhaerens" \
+    --cpus 10 \
+    --TRINITYHOME='/home/jlm329/project/conda_envs/funannotate/opt/trinity-2.8.5/'
+  ```  
+### predict  
+
+
+
+
+
 ### 
