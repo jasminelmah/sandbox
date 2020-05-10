@@ -115,8 +115,11 @@ funannotate train -i trichoplax.scaffolds.fa.masked -o fun_train \
     --TRINITYHOME='/home/jlm329/project/conda_envs/funannotate/opt/trinity-2.8.5/'
   ```  
 
-
-
+First run of ```funanannotate train``` came back with empty files and this slurm error  buried in the job error file:    
+```  
+slurmstepd: error: _is_a_lwp: open() /proc/27543/status failed: No such file or directory  
+```
+Reran without changing anything and was successful.  
 
 
 
