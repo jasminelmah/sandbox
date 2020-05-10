@@ -104,8 +104,7 @@ funannotate setup -i all -b metazoa -d funannotate_db
 #confirm successful installation  
 funannotate test -t all --cpus 10  
 ```  
-#### train  
-script: [funnannotate_train.sh](./funannotate_train.sh)  
+Run funannotate train to generate PASA gene models using previously assembled genome-guided Trinity transcriptome: [funnannotate_train.sh](./funannotate_train.sh)  
 ```  
 funannotate train -i trichoplax.scaffolds.fa.masked -o fun_train \
     -l $READS/KammSenatoreAll_R1.fastq.gz \
@@ -115,7 +114,7 @@ funannotate train -i trichoplax.scaffolds.fa.masked -o fun_train \
     --cpus 10 \
     --TRINITYHOME='/home/jlm329/project/conda_envs/funannotate/opt/trinity-2.8.5/'
   ```  
-### predict  
+
 
 
 
