@@ -91,7 +91,7 @@ funannotate setup -i all -b metazoa -d funannotate_db
 #confirm successful installation  
 funannotate test -t all --cpus 10  
 ```  
-Run funannotate train to generate PASA gene models using previously assembled genome-guided Trinity transcriptome: [funnannotate_train.sh](./funannotate_train.sh)  
+Run ```funannotate train``` to generate PASA gene models using previously assembled genome-guided Trinity transcriptome: [funnannotate_train.sh](./funannotate_train.sh)  
 ```  
 funannotate train -i trichoplax.scaffolds.fa.masked -o fun_train \
     -l $READS/KammSenatoreAll_R1.fastq.gz \
@@ -107,7 +107,5 @@ First run of ```funanannotate train``` came back with empty files and this slurm
 slurmstepd: error: _is_a_lwp: open() /proc/27543/status failed: No such file or directory  
 ```
 Reran without changing anything and was successful.  
-
-
 
 ###
