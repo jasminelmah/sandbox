@@ -15,8 +15,8 @@ give that a try
 
 
 
-### Align reads to previous Trichoplax assembly  
-Aligned trimmed reads to _sorted_ Trichoplax assembly ```scaffolds.reduced.sort.fa```, the sorted and renamed scaffolds created with ```funannotate sort```. The genome index was named ```Tad_2019-29.sort``` and all new files created herein include 'sort' in its name.   
+### Align reads to sorted Trichoplax assembly  
+Aligned trimmed reads to ```scaffolds.reduced.sort.fa```, the _sorted and renamed_ scaffolds created with ```funannotate sort```. All new files created herein include 'sort' in its name.   
 
 I first created the hisat2 [genome index](./hisat2_gen_index.sh).  
 ```  
@@ -34,11 +34,11 @@ hisat2 -p 20 \
 ```  
 etc. with the other libraries.  
 
-<CURRENT POSITION IN WORK FLOW>  
+_CURRENT POSITION IN WORK FLOW_. I will continue to correct the following as I move fowards.  
 
 Then merge with samtools: [samtoolsmerge.sh](./samtoolsmerge)  
 ```  
-samtools merge Tad_KammSenatore_merged.bam Tad_Kamm.bam SRR8674648.bam SRR8674649.bam SRR8674650.bam SRR8674651.bam  
+samtools merge Tad_KammSenatore.merged.sort.bam SRR8674648.sort.bam SRR8674649.sort.bam SRR8674650.sort.bam SRR8674651.sort.bam Tad_Kamm.sort.bam
 ```  
 
 ### Trinity Assembly  
