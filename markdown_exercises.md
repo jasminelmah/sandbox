@@ -22,7 +22,7 @@ I first created the hisat2 [genome index](./hisat2_gen_index.sh).
 ```  
 hisat2-build scaffolds.reduced.sort.fa Tad_2019-29.sort  
 ```  
-Then the four Senatore libraries (SRR8674648, SRR8674649, SRR8674650, SRR8674651) and the Kamm reads were aligned separately. eg. see script [hisat2_samtools.sh](./hisat2_samtools.sh).   
+Then the four Senatore libraries (SRR8674648, SRR8674649, SRR8674650, SRR8674651) and the Kamm reads were aligned separately. scripts: [hisat2_samtools.sh](./hisat2_samtools.sh), [SRR8674648](./hisat2_48.sh), [SRR8674649](./hisat2_49.sh), [SRR8674650](./hisat2_50.sh), [SRR8674651](./hisat2_51.sh).  
 
 ```   
 hisat2 -p 20 \
