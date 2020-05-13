@@ -15,40 +15,27 @@ give that a try
 
 
 
-### Trimmomatic   
-We have found two sets of paired-end RNAseq reads for Trichoplax (Grell line):  
-- [Kamm et al. 2018](https://www.ncbi.nlm.nih.gov/sra/SRR5826498)  
-- [Senatore lab (unpublished)](https://www.ncbi.nlm.nih.gov/sra/SRX5470589%5Baccn%5D)  
-
-Senatore's had four libraries of reads. Concatenate them:  
-```
-cat SRR8674648_1.fastq SRR8674649_1.fastq SRR8674650_1.fastq SRR8674651_1.fastq > senatore.R1_cat.fastq
-```
-and repeat for R2.  
-
-Reads renamed and gzipped (big files - send in a job to gzip):  
-- kamm.R1.fastq.gz and kamm.R2.fastq.gz: Kamm's reads just renamed  
-- senatore.R1_cat.fastq.gz and senatore.R2_cat.fastq.gz: concatenated reads  
-
-Trim with Trimmomatic: [trimm.sh](./trimm.sh)  
-```
-trimmomatic PE -threads 10 -phred33 senatore.R1_cat.fastq.gz senatore.R2_cat.fastq.gz trimmed/senatore_R1.paired.trimmed.fastq.gz trimmed/senatore_R1.unpaired.trimmed.fastq.gz trimmed/senatore_R2.paired.trimmed.fastq.gz trimmed/senatore_R2.unpaired.trimmed.fastq.gz ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 SLIDINGWINDOW:4:5 LEADING:5 TRAILING:5 MINLEN:25  
-
-trimmomatic PE -threads 10 -phred33 kamm.R1.fastq.gz kamm.R2.fastq.gz trimmed/kamm_R1.paired.trimmed.fastq.gz trimmed/kamm_R1.unpaired.trimmed.fastq.gz trimmed/kamm_R2.paired.trimmed.fastq.gz trimmed/kamm_R2.unpaired.trimmed.fastq.gz ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 SLIDINGWINDOW:4:5 LEADING:5 TRAILING:5 MINLEN:25  
-```
 ### Align reads to previous Trichoplax assembly  
-Aligned trimmed reads to Oct. 29 2019 Trichoplax HiC assembly. Alignment of all libraries at once was too burdensome. Aligned the four Senatore libraries (SRR8674648, SRR8674649, SRR8674650, SRR8674651) and Kamm reads separately. eg. [hisat2_samtools.sh](./hisat2_samtools.sh)  
+Aligned trimmed reads to _sorted_ Trichoplax assembly ```scaffolds.reduced.sort.fa```, the sorted and renamed scaffolds created with ```funannotate sort```. The genome index was named ```Tad_2019-29.sort``` and all new files created herein include 'sort' in its name.   
+
+I first created the hisat2 [genome index](./hisat2_gen_index.sh).  
+```  
+hisat2-build scaffolds.reduced.sort.fa Tad_2019-29.sort  
+```  
+Then the four Senatore libraries (SRR8674648, SRR8674649, SRR8674650, SRR8674651) and the Kamm reads were aligned separately. eg. see script [hisat2_samtools.sh](./hisat2_samtools.sh).   
 
 ```   
 hisat2 -p 20 \
-  --rg-id "RGID_Tad_Kamm" --rg "RG_Tad_Kamm" \
-  --summary-file /home/jlm329/project/trix/fastq/trimmed/hisat2/Tad_Kamm_hisat2.aln.stats --new-summary \
-  -x /home/jlm329/project/trix/fastq/trimmed/hisat2/Tad_2019-29 \
-  -1 ../kamm_R1.paired.trimmed.fastq.gz -2 ../kamm_R2.paired.trimmed.fastq.gz \
-  | samtools view -bhuS - | samtools sort - -m 100G -o Tad_Kamm.bam  
-
+  --rg-id "RGID_Tad_Kamm.sort" --rg "RG_Tad_Kamm.sort" \
+  --summary-file /home/jlm329/scratch60/hisat2_scratch60/Tad_Kamm_hisat2.sort.aln.stats --new-summary \
+  -x /home/jlm329/scratch60/hisat2_scratch60/Tad_2019-29.sort \
+  -1 ~/project/trix/fastq/trimmed/kamm_R1.paired.trimmed.fastq.gz -2 ~/project/trix/fastq/trimmed/kamm_R2.paired.trimmed.fastq.gz \
+  | samtools view -bhuS - | samtools sort - -m 100G -o Tad_Kamm.sort.bam  
 ```  
 etc. with the other libraries.  
+
+<CURRENT POSITION IN WORK FLOW>  
+
 Then merge with samtools: [samtoolsmerge.sh](./samtoolsmerge)  
 ```  
 samtools merge Tad_KammSenatore_merged.bam Tad_Kamm.bam SRR8674648.bam SRR8674649.bam SRR8674650.bam SRR8674651.bam  
@@ -123,4 +110,4 @@ Reran without changing anything and was successful.
 
 
 
-### 
+###
