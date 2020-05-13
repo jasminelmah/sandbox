@@ -34,7 +34,7 @@ hisat2 -p 20 \
 ```  
 etc. with the other libraries.  
 
-_CURRENT POSITION IN WORK FLOW_. I will continue to correct the following as I move fowards.  
+_Current position_: I will continue to correct the following as I move fowards.   
 
 Then merge with samtools: [samtoolsmerge.sh](./samtoolsmerge)  
 ```  
