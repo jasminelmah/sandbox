@@ -15,97 +15,55 @@ give that a try
 
 
 
-### Align reads to sorted Trichoplax assembly  
-Aligned trimmed reads to ```scaffolds.reduced.sort.fa```, the _sorted and renamed_ scaffolds created with ```funannotate sort```. All new files created herein include 'sort' in its name.   
-
-I first created the hisat2 [genome index](./hisat2_gen_index.sh).  
-```  
-hisat2-build scaffolds.reduced.sort.fa Tad_2019-29.sort  
-```  
-Then the four Senatore libraries (SRR8674648, SRR8674649, SRR8674650, SRR8674651) and the Kamm reads were aligned separately. scripts: [hisat2_samtools.sh](./hisat2_samtools.sh), [SRR8674648](./hisat2_48.sh), [SRR8674649](./hisat2_49.sh), [SRR8674650](./hisat2_50.sh), [SRR8674651](./hisat2_51.sh).  
-
-```   
-hisat2 -p 20 \
-  --rg-id "RGID_Tad_Kamm.sort" --rg "RG_Tad_Kamm.sort" \
-  --summary-file /home/jlm329/scratch60/hisat2_scratch60/Tad_Kamm_hisat2.sort.aln.stats --new-summary \
-  -x /home/jlm329/scratch60/hisat2_scratch60/Tad_2019-29.sort \
-  -1 ~/project/trix/fastq/trimmed/kamm_R1.paired.trimmed.fastq.gz -2 ~/project/trix/fastq/trimmed/kamm_R2.paired.trimmed.fastq.gz \
-  | samtools view -bhuS - | samtools sort - -m 100G -o Tad_Kamm.sort.bam  
-```  
-etc. with the other libraries.  
-
-_Current position_: I will continue to correct the following as I move fowards.   
-
-Then merge with samtools: [samtoolsmerge.sh](./samtoolsmerge)  
-```  
-samtools merge Tad_KammSenatore.merged.sort.bam SRR8674648.sort.bam SRR8674649.sort.bam SRR8674650.sort.bam SRR8674651.sort.bam Tad_Kamm.sort.bam
-```  
-
-### Trinity Assembly  
-Genome guided Trinity to assemble Kamm/Senatore reads. Max intron size chosen as 500 bp since max intron length in Trichoplax is 243 bp.    
-
-Trinity version 2.9.1 executed in a singularity container in Farnam: [trinity_jm_v2.9.1.sh](./trinity_jm_v2.9.1)    
-```  
-singularity exec trinityrnaseq.v2.9.1.simg Trinity --genome_guided_bam Tad_KammSenatore_merged.bam --genome_guided_max_intron 500 --max_memory 250G --CPU 20  
-```   
-
-Transcriptome statistics:  
-```  
-################################
-## Counts of transcripts, etc.
-################################
-Total trinity 'genes':  61000
-Total trinity transcripts:      93274
-Percent GC: 34.48
-########################################
-Stats based on ALL transcript contigs:
-########################################
-        Contig N10: 8455
-        Contig N20: 6422
-        Contig N30: 5254
-        Contig N40: 4354
-        Contig N50: 3610
-        Median contig length: 638
-        Average contig: 1619.13
-        Total assembled bases: 151022434
-
-####################################################
-## Stats based on ONLY LONGEST ISOFORM per 'GENE':
-#####################################################
-        Contig N10: 7635
-        Contig N20: 5583
-        Contig N30: 4318
-        Contig N40: 3361
-        Contig N50: 2523
-        Median contig length: 382
-        Average contig: 971.13
-        Total assembled bases: 59238653
-``` 
 ### Funannotate  
 Install funannotate, download funannotate db, confirm successful installation:  
 ```  
-#confirm all dependencies installed. If signalp version is > 4.1, will show up as error but will not affect annotation pipeline. Install ete3 and emapper.py manually.  
+#install funannotate  
+module load miniconda  
+conda create -c conda-forge -c bioconda -n funannotate funannotate  
+
+#install dependencies
+#signalp: add executable to funannotate/bin/ and library to funannotate/lib.  
+#ete3 and emapper.py (eggnog-mapper) by conda. Move emapper db (/data) to ~/miniconda2/lib/python2.7/site-packages
+
+#confirm all dependencies installed.  
 funannotate check --show-versions  
+
 #download BUSCO metazoa db
-funannotate setup -i all -b metazoa -d funannotate_db  
+funannotate setup -i all -b metazoa -d funannotate_db 
+
 #confirm successful installation  
 funannotate test -t all --cpus 10  
 ```  
-Run ```funannotate train``` to generate PASA gene models using previously assembled genome-guided Trinity transcriptome: [funnannotate_train.sh](./funannotate_train.sh)  
-```  
-funannotate train -i trichoplax.scaffolds.fa.masked -o fun_train \
-    -l $READS/KammSenatoreAll_R1.fastq.gz \
-    -r $READS/KammSenatoreAll_R2.fastq.gz \
-    --trinity $TRINITY_OUT/Trinity-GG_max500.fasta \
-    --species "Trichoplax adhaerens" \
-    --cpus 10 \
-    --TRINITYHOME='/home/jlm329/project/conda_envs/funannotate/opt/trinity-2.8.5/'
-  ```  
 
-First run of ```funanannotate train``` came back with empty files and this slurm error  buried in the job error file:    
+Run ```funannotate train```: TBD  
+
+Test run ```funannotate predict``` with no evidence:  
 ```  
-slurmstepd: error: _is_a_lwp: open() /proc/27543/status failed: No such file or directory  
-```
-Reran without changing anything and was successful.  
+module load Biopython/1.69-foss-2016a-Python-2.7.11
+
+funannotate predict -i /home/jlm329/scratch60/funannotate_scratch60/train_simple/trichoplax.scaffolds.fa.masked \
+            -o fun_train.no_sort.simple -s "Trichoplax adhaerens" --cpus 10 --organism other --busco_db metazoa
+```  
+Run BUSCO on protein sequences obtained from funannotate predict test run.  
+```  
+singularity exec ~/project/trix/busco/busco4.sif busco \
+       -i /home/jlm329/scratch60/funannotate_scratch60/predict_simple/fun_predict_nosort.simple/predict_results/Trichoplax_adhaerens.proteins.fa \
+       --cpu 16 \
+       -o BUSCO_nosort_simple \
+       -l /home/jlm329/project/trix/busco/metazoa_odb10 -m prot
+```  
+BUSCO results for predicted proteins from test run.  
+```  
+        C:84.6%[S:84.0%,D:0.6%],F:7.0%,M:8.4%,n:954        
+        807     Complete BUSCOs (C)                        
+        801     Complete and single-copy BUSCOs (S)        
+        6       Complete and duplicated BUSCOs (D)         
+        67      Fragmented BUSCOs (F)                      
+        80      Missing BUSCOs (M)                         
+        954     Total BUSCO groups searched    
+```  
+
+
 
 ###
