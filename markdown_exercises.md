@@ -15,6 +15,50 @@ give that a try
 
 
 
+### Trinity Assembly  
+Previous run with alignments to unsorted genome found that max intron 500 with Trinity v.2.9.1 produced the fewest number of genes (61,000).  
+
+```
+singularity exec ~/project/trix/trinity/trinityrnaseq.v2.9.1.simg Trinity --genome_guided_bam ~/scratch60/hisat2_scratch60/bam_files/Tad_KammSenatore.merged.sort.bam  --genome_guided_max_intron 500 --output Trinity_GG.max.intron.500.sort_outdir --max_memory 250G --CPU 20  
+```  
+Transcriptome statistics for genome-guided assembly on sorted genome.  
+```  
+################################
+## Counts of transcripts, etc.
+################################
+Total trinity 'genes':  59341
+Total trinity transcripts:      90797
+Percent GC: 34.48
+
+########################################
+Stats based on ALL transcript contigs:
+########################################
+
+        Contig N10: 8545
+        Contig N20: 6467
+        Contig N30: 5302
+        Contig N40: 4418
+        Contig N50: 3653
+
+        Median contig length: 638
+        Average contig: 1642.93
+        Total assembled bases: 149172970
+        
+#####################################################
+## Stats based on ONLY LONGEST ISOFORM per 'GENE':
+#####################################################
+
+        Contig N10: 7715
+        Contig N20: 5643
+        Contig N30: 4377
+        Contig N40: 3409
+        Contig N50: 2595
+
+        Median contig length: 379
+        Average contig: 979.55
+        Total assembled bases: 58127671
+```  
+
 ### Funannotate  
 Install funannotate, download funannotate db, confirm successful installation:  
 ```  
