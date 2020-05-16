@@ -15,50 +15,6 @@ give that a try
 
 
 
-### Trinity Assembly  
-Previous run with alignments to unsorted genome found that max intron 500 with Trinity v.2.9.1 produced the fewest number of genes (61,000).  
-
-```
-singularity exec ~/project/trix/trinity/trinityrnaseq.v2.9.1.simg Trinity --genome_guided_bam ~/scratch60/hisat2_scratch60/bam_files/Tad_KammSenatore.merged.sort.bam  --genome_guided_max_intron 500 --output Trinity_GG.max.intron.500.sort_outdir --max_memory 250G --CPU 20  
-```  
-Transcriptome statistics for genome-guided assembly on sorted genome.  
-```  
-################################
-## Counts of transcripts, etc.
-################################
-Total trinity 'genes':  59341
-Total trinity transcripts:      90797
-Percent GC: 34.48
-
-########################################
-Stats based on ALL transcript contigs:
-########################################
-
-        Contig N10: 8545
-        Contig N20: 6467
-        Contig N30: 5302
-        Contig N40: 4418
-        Contig N50: 3653
-
-        Median contig length: 638
-        Average contig: 1642.93
-        Total assembled bases: 149172970
-        
-#####################################################
-## Stats based on ONLY LONGEST ISOFORM per 'GENE':
-#####################################################
-
-        Contig N10: 7715
-        Contig N20: 5643
-        Contig N30: 4377
-        Contig N40: 3409
-        Contig N50: 2595
-
-        Median contig length: 379
-        Average contig: 979.55
-        Total assembled bases: 58127671
-```  
-
 ### Funannotate  
 Install funannotate, download funannotate db, confirm successful installation:  
 ```  
@@ -80,7 +36,19 @@ funannotate setup -i all -b metazoa -d funannotate_db
 funannotate test -t all --cpus 10  
 ```  
 
-Run ```funannotate train```: TBD  
+Run ```funannotate train``` on sorted assembly to generate PASA gene models: [funannotate_train.sh](./funannotate_train.sh)
+```  
+TRINITY_OUT="/home/jlm329/scratch60/trinity_scratch60/Trinity_GG.max.intron.500.sort/Trinity_GG.max.intron.500.sort_outdir"
+READS="/home/jlm329/project/trix/fastq"
+
+funannotate train -i trichoplax.scaffolds.fa.masked -o fun_train.sort \
+    -l $READS/KammSenatoreAll_R1.fastq.gz \
+    -r $READS/KammSenatoreAll_R2.fastq.gz \
+    --trinity $TRINITY_OUT/Trinity-GG.max.intron500.sort.fasta \
+    --species "Trichoplax adhaerens" \
+    --cpus 10 \
+    --TRINITYHOME='/home/jlm329/project/conda_envs/funannotate/opt/trinity-2.8.5/'
+```  
 
 Test run ```funannotate predict``` with no evidence:  
 ```  
