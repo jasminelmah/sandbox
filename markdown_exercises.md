@@ -14,7 +14,6 @@ Make a new line by adding **2** spaces at end before hitting return.
 give that a try  
 
 
-
 ### Funannotate  
 Install funannotate, download funannotate db, confirm successful installation:  
 ```  
@@ -75,7 +74,44 @@ BUSCO results for predicted proteins from test run.
         80      Missing BUSCOs (M)                         
         954     Total BUSCO groups searched    
 ```  
-
+Run ```funannotate predict``` on sorted assembly with evidence:  
+```  
+funannotate predict -i /home/jlm329/scratch60/funannotate_scratch60/predict/trichoplax.scaffolds.fa.masked \
+    --species "Trichoplax adhaerens" \
+    --out fun_predict.sort \
+    --rna_bam $RNA/Tad_KammSenatore.merged.sort.bam \
+    --optimize_augustus \
+    --transcript_evidence /home/jlm329/scratch60/funannotate_scratch60/train/fun_train.sort/training/funannotate_train.trinity-GG.fasta \
+    --pasa_gff /home/jlm329/scratch60/funannotate_scratch60/train/fun_train.sort/training/funannotate_train.pasa.gff3 \
+    --busco_db metazoa --max_intronlen 15000 \
+    --organism other -d /home/jlm329/project/trix/funannotate_db --cpus 8 \
+    --repeats2evm 
+ ```  
+Predict output:  
+```  
+Program        Training-Method
+  augustus       pasa           
+  codingquarry   rna-bam        
+  glimmerhmm     pasa           
+  snap           pasa           
+  Feature       Specificity   Sensitivity
+  nucleotides   97.2%         96.3%      
+  exons         89.4%         89.7%      
+  genes         39.4%         39.0%      
+  Feature       Specificity   Sensitivity
+  nucleotides   97.1%         96.5%      
+  exons         88.8%         89.9%      
+  genes         43.8%         43.1%      
+  Source         Weight   Count
+  Augustus       1        4502 
+  Augustus HiQ   2        7950 
+  CodingQuarry   2        17978
+  GlimmerHMM     1        16357
+  pasa           6        7310 
+  snap           1        17128
+  Total          -        71225
+```  
+  
 
 
 ###
