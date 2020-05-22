@@ -74,7 +74,7 @@ BUSCO results for predicted proteins from test run.
         80      Missing BUSCOs (M)                         
         954     Total BUSCO groups searched    
 ```  
-Run ```funannotate predict``` on sorted assembly with evidence:  
+Run ```funannotate predict``` on sorted assembly with evidence: [fun_predict_1.sh](./fun_predict_1.sh)
 ```  
 funannotate predict -i /home/jlm329/scratch60/funannotate_scratch60/predict/trichoplax.scaffolds.fa.masked \
     --species "Trichoplax adhaerens" \
@@ -111,7 +111,7 @@ Program        Training-Method
   snap           1        17128
   Total          -        71225
 ```  
-  
+
 
 
 ###
