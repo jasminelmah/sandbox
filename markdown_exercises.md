@@ -18,7 +18,9 @@ Run ```funannotate update``` to fix gene models: [update.sh](./update.sh)
 ```  
 funannotate update -i ../predict/fun_predict.sort/ --cpus 10 \
   -l KammSenatoreAll_R1.fastq.gz \
-  -r KammSenatoreAll_R2.fastq.gz	 
+  -r KammSenatoreAll_R2.fastq.gz	
+```  
+Results:   
 ```   
 Total Gene Models:	13,181
 Total transcripts:	13,863
