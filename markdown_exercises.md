@@ -14,13 +14,20 @@ Make a new line by adding **2** spaces at end before hitting return.
 give that a try
 
 
-BUSCO protein results for predict run #1: [busco_protein.sh](./busco_protein.sh)  
+Run ```funannotate update``` to fix gene models: [update.sh](./update.sh)
 ```  
-        C:93.8%[S:93.1%,D:0.7%],F:1.3%,M:4.9%,n:954        
-        895     Complete BUSCOs (C)                        
-        888     Complete and single-copy BUSCOs (S)        
-        7       Complete and duplicated BUSCOs (D)         
-        12      Fragmented BUSCOs (F)                      
-        47      Missing BUSCOs (M)                         
-        954     Total BUSCO groups searched 
+funannotate update -i ../predict/fun_predict.sort/ --cpus 10 \
+  -l KammSenatoreAll_R1.fastq.gz \
+  -r KammSenatoreAll_R2.fastq.gz	 
+```   
+Total Gene Models:	13,181
+Total transcripts:	13,863
+New Gene Models:	94
+No Change:		7,666
+Update UTRs:		5,409
+Exons Changed:		11
+Exons/CDS Changed:	1
+Dropped Models:		0
+CDS AED:		0.006
+mRNA AED:		0.077
 ```  
