@@ -34,11 +34,13 @@ CDS AED:		0.006
 mRNA AED:		0.077
 ```  
 
-Symbolic link the predict output folder to the training output folder: ```cd ~/scratch60/funannotate_scratch60/predict/fun_predict.sort && ln -s ~/scratch60/funannotate_scratch60/train/fun_train.sort/training .```  
+Symbolic link the predict output folder to the training output folder:  
+```cd ~/scratch60/funannotate_scratch60/predict/fun_predict.sort && ln -s ~/scratch60/funannotate_scratch60/train/fun_train.sort/training .```  
 
-Install ```interproscan```.  
+Install and run ```interproscan```.  
 - You can follow the instructions in this repo [here](https://github.com/dunnlab/xenoturbella_annotation#functional-annotation).   
 - I had trouble with installation. Funannotate has [instructions](https://funannotate.readthedocs.io/en/latest/tutorials.html) on how to use an interproscan docker image, and I converted the docker image into a singularity image. Funannotate uses the Blaxter Lab's interproscan image, which can be found [here](https://hub.docker.com/r/blaxterlab/interproscan/).  
+-script: [interproscan.sh](./interproscan.sh)
 ```  
 #Singularity is not installed in login nodes on Farnam, so use interactive:  
 srun --pty -p interactive -c 2 bash
