@@ -35,7 +35,9 @@ mRNA AED:		0.077
 ```  
 
 Symbolic link the predict output folder to the training output folder:  
-```cd ~/scratch60/funannotate_scratch60/predict/fun_predict.sort && ln -s ~/scratch60/funannotate_scratch60/train/fun_train.sort/training .```  
+```
+cd ~/scratch60/funannotate_scratch60/predict/fun_predict.sort && ln -s ~/scratch60/funannotate_scratch60/train/fun_train.sort/training .
+```  
 
 Install and run ```interproscan```.  
 - You can follow the instructions in this repo [here](https://github.com/dunnlab/xenoturbella_annotation#functional-annotation).   
