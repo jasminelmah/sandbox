@@ -37,8 +37,9 @@ mRNA AED:		0.077
 
 
 Install and run ```interproscan```.   
-- I had attempted to install ```Interproscan``` following the instructions from this repo [here](https://github.com/dunnlab/xenoturbella_annotation#functional-annotation) and, when that failed, attempted to run ```Interproscan``` from a singularity container converted from a docker container (which can be found here](https://hub.docker.com/r/blaxterlab/interproscan/)). Both failed, but if you want to read about what I did you can check ```401e659```.    
+- I had attempted to install ```Interproscan``` following the instructions from this repo [here](https://github.com/dunnlab/xenoturbella_annotation#functional-annotation) and, when that failed, attempted to run ```Interproscan``` from a singularity container converted from a docker container (which can be downloaded [here](https://hub.docker.com/r/blaxterlab/interproscan/) ). Both failed, but if you want to read about what I did you can check ```401e659```.    
 - In the end, Zack ran it for me with his installation (Interproscan v. 5.36-75.0). The script he used is [interproscan.sh](./interproscan.sh).  
 - Output is ```trichoplax_IPS.xml```.  
+  
 
 
