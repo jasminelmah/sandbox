@@ -41,3 +41,4 @@ Install and run ```interproscan```.
 - In the end, Zack ran it for me with his installation (Interproscan v. 5.36-75.0). The script he used is [interproscan.sh](./interproscan.sh).  
 - Output is ```trichoplax_IPS.xml```.  
 
+
