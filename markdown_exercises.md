@@ -38,7 +38,7 @@ mRNA AED:		0.077
 
 - Run ```eggNOG-mapper``` using the online submission portal [here](http://eggnog-mapper.embl.de/).  
 Settings: taxonomic scope: auto adjust for each query; orthology restrictions: transfer annotation from any ortholog; GO evidence: experimental; minimum e-value: 0.001, minimum bitscore: 60, minimum % query coverage: 20; minimum % subject coverage: 0. With the exception of the GO evidence, these are the default settings.  
-- output: query_seqs.fa.emapper_MM__83if57l.annotations  
+Output: query_seqs.fa.emapper_MM__83if57l.annotations  
 
 - Run ```funannotate annotate```: [annotate.sh](./annotate.sh)  
 ```  
@@ -60,7 +60,7 @@ SyntaxError: Missing parentheses in call to 'print'. Did you mean print("AUGUSTU
 ```  
 Added parentheses to this line in ```funannotate-BUSCO.py``` and it worked.  
   
-  
+
 
 
 
