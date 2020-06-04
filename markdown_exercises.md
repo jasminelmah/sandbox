@@ -36,10 +36,33 @@ mRNA AED:		0.077
 
 
 
-Install and run ```interproscan```.   
-- I had attempted to install ```Interproscan``` following the instructions from this repo [here](https://github.com/dunnlab/xenoturbella_annotation#functional-annotation) and, when that failed, attempted to run ```Interproscan``` from a singularity container converted from a docker container (which can be downloaded [here](https://hub.docker.com/r/blaxterlab/interproscan/) ). Both failed, but if you want to read about what I did you can check ```401e659```.    
-- In the end, Zack ran it for me with his installation (Interproscan v. 5.36-75.0). The script he used is [interproscan.sh](./interproscan.sh).  
-- Output is ```trichoplax_IPS.xml```.  
+- Run ```eggNOG-mapper``` using the online submission portal [here](http://eggnog-mapper.embl.de/).  
+Settings: taxonomic scope: auto adjust for each query; orthology restrictions: transfer annotation from any ortholog; GO evidence: experimental; minimum e-value: 0.001, minimum bitscore: 60, minimum % query coverage: 20; minimum % subject coverage: 0. With the exception of the GO evidence, these are the default settings.  
+- output: query_seqs.fa.emapper_MM__83if57l.annotations  
+
+- Run ```funannotate annotate```: [annotate.sh](./annotate.sh)  
+```  
+funannotate annotate -i /home/jlm329/scratch60/funannotate_scratch60/predict/fun_predict.sort \
+    --gff /home/jlm329/scratch60/funannotate_scratch60/predict/fun_predict.sort/update_results/Trichoplax_adhaerens.gff3 \
+    --genbank /home/jlm329/scratch60/funannotate_scratch60/predict/fun_predict.sort/update_results/Trichoplax_adhaerens.gbk \
+    --species "Trichoplax adhaerens" \
+    --eggnog /home/jlm329/scratch60/funannotate_scratch60/annotate/query_seqs.fa.emapper_MM__83if57l.annotations \
+    --iprscan /home/jlm329/scratch60/interproscan_scratch60/trichoplax_IPS.xml \
+    --busco_db metazoa \
+    --cpus 16
+ ```  
+ First run produced this error:  
+ ```  
+ [06/04/20 01:40:55]:   File "/gpfs/ysm/project/dunn/jlm329/conda_envs/funannotate/lib/python2.7/site-packages/funannotate/aux_scripts/funannotate-BUSCO2.py", line 65
+    print "AUGUSTUS_CONFIG_PATH environmental variable not set, exiting"
+          ^
+SyntaxError: Missing parentheses in call to 'print'. Did you mean print("AUGUSTUS_CONFIG_PATH environmental variable not set, exiting")?
+```  
+Added parentheses to this line in ```funannotate-BUSCO.py``` and it worked.  
   
+  
+
+
+
 
 
