@@ -13,7 +13,7 @@ Make a new line by adding **2** spaces at end before hitting return.
 
 give that a try
 
-Pull out Hox sequences. Schierwater et al 2008 found 37. We did too.  
+- Pull out Hox sequences. Schierwater et al 2008 found 37. We did too.  
 ```  
 ## Pull out all proteins with PFAM homeodomain from gff3. 
 grep -a "PF00046" Trichoplax_adhaerens_with_eggnog_names.gff3 > hox_domains_tad.gff3
