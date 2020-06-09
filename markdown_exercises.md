@@ -15,12 +15,14 @@ give that a try
 
 Pull out Hox sequences. Schierwater et al 2008 found 37. We did too.  
 ```  
+## Pull out all proteins with PFAM homeodomain from gff3. 
 grep -a "PF00046" Trichoplax_adhaerens_with_eggnog_names.gff3 > hox_domains_tad.gff3
-#add ##gff-version 3 to top of file
-
+## Add ##gff-version 3 to top of resulting file.
+## Convert gff3 to bed
 module load BEDOPS 
 gff2bed < hox_domains_tad.gff3 > hox_domains_tad.bed
 
+## Pull out correponding funannotate ids
 grep -a "PF00046" Trichoplax_adhaerens_with_eggnog_names.gff3 |grep -o "FUN_\w*-T\w*" > hox_peptide_ids_tad.txt
 
 ## download FaSomeRecords
