@@ -31,8 +31,8 @@ wget https://raw.githubusercontent.com/santiagosnchez/faSomeRecords/master/faSom
 chmod u+x
 
 ## Sequence names in list must exactly match those in pep fasta. Regex:  
-(FUN_.*)-T1
->$1-T1 $1
+FIND:   (FUN_.*)-T1
+REPLACE: >$1-T1 $1
 ## save file as hox_peptide_ids_tad_corrected.txt
 
 ## Turns out there is one sequence that doesn't end in -T1. Just copy and paste the right name: >FUN_011002-T1 FUN_011002
