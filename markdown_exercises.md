@@ -13,29 +13,31 @@ Make a new line by adding **2** spaces at end before hitting return.
 
 give that a try
 
-- Parse out eggNOG gene names and transfer to gff3 file from ```funannotate annotate``` run using [eggParse.py](./eggParse.py) by Ben Evans.  
+Pull out Hox sequences. Schierwater et al 2008 found 37. We did too.  
+```  
+grep -a "PF00046" Trichoplax_adhaerens_with_eggnog_names.gff3 > hox_domains_tad.gff3
+#add ##gff-version 3 to top of file
+
+module load BEDOPS 
+gff2bed < hox_domains_tad.gff3 > hox_domains_tad.bed
+
+grep -a "PF00046" Trichoplax_adhaerens_with_eggnog_names.gff3 |grep -o "FUN_\w*-T\w*" > hox_peptide_ids_tad.txt
+
+## download FaSomeRecords
+wget https://raw.githubusercontent.com/santiagosnchez/faSomeRecords/master/faSomeRecords.py
+## change permissions
+chmod u+x
+
+## Sequence names in list must exactly match those in pep fasta. Regex:  
+(FUN_.*)-T1
+>$1-T1 $1
+## save file as hox_peptide_ids_tad_corrected.txt
+
+## Turns out there is one sequence that doesn't end in -T1. Just copy and paste the right name: >FUN_011002-T1 FUN_011002
+
+## Pull out hox sequences
+./faSomeRecords.py --fasta Trichoplax_adhaerens.proteins.fa --list hox_peptide_ids_tad_corrected.txt --outfile hox_proteins_tad.fa  
 ```   
-#output is hardcoded on line 47. Chose `Trichoplax_adhaerens_with_eggnog_names.gff3`.
-module load Python/3.7.0-foss-2018b
-python eggParse.py Trichoplax_adhaerens.gff3 query_seqs.fa.emapper_MM__83if57l.annotations 
-```  
-Went from 752 gene names to 6,653!    
-
-### Genome Browser  
-- Downsample reads for genome browser.  
-```  
-module load SAMtools/1.9-foss-2018b  
-# These are the trimmed RNAseq reads.  
-samtools view -bs 42.01 Tad_KammSenatore.merged.sort.bam > Tad_KammSenatore.merged.sort.subsampled.bam  
-```  
-TBD...  
-
-### Synteny Analysis  
-- Convert gff3 file from ```funannotate annotate``` to bed.  
-```  
-module load BEDOPS  
-gff2bed < Trichoplax_adhaerens.gff3 > Trichoplax_adhaerens.bed  
-```  
 
 
   
